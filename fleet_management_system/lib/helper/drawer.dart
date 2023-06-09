@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './setting.dart';
+import 'setting.dart' as constant;
 
 class MyDrawer extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -36,7 +36,7 @@ class _MyDrawerState extends State<MyDrawer> {
             currentAccountPicture: CircleAvatar(
               radius: 80,
               backgroundImage: NetworkImage(
-                BACKEND_URL + widget.userData['avatar'],
+                constant.backendUrl + widget.userData['avatar'],
               ),
             ),
           ),

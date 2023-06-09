@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../helper/setting.dart';
+import '../helper/setting.dart' as constant;
 import 'package:fleet_management_system/screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -126,7 +126,7 @@ class LoginScreen extends StatelessWidget {
 
 // Logic to Login
 Future<Map<String, dynamic>> login(String username, String password) async {
-  final url = Uri.parse(API_URL + 'login/');
+  final url = Uri.parse('${constant.apiUrl}login/');
 
   final response = await http.post(
     url,
@@ -154,13 +154,4 @@ Future<Map<String, dynamic>> login(String username, String password) async {
     print('Error message: ${response.body}');
     return {};
   }
-}
-
-class UserData {
-  final String firstname;
-  final String lastname;
-  final String avatar;
-  final String username;
-
-  const UserData(this.firstname, this.lastname, this.username, this.avatar);
 }
