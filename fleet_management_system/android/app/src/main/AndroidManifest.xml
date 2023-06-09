@@ -3,6 +3,8 @@
         android:label="fleet_management_system"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAcw5TCJ3J2vwGMd-qvdMupy_EH4iIaR6U"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
