@@ -1,3 +1,4 @@
+import 'package:fleet_management_system/image_upload.dart';
 import 'package:fleet_management_system/screens/login_screen.dart';
 // import 'package:fleet_management_system/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Fleet Management System',
       // initialRoute: '/login',
       // routes: {
@@ -21,7 +23,7 @@ class App extends StatelessWidget {
       // },
       home: Scaffold(
         body: Center(
-          child: LoginScreen(),
+          child: UploadScreen(), //LoginScreen(),
         ),
       ),
     );

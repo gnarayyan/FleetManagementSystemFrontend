@@ -1,8 +1,10 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../helper/setting.dart' as constant;
+import '../helper/login.dart';
 import 'package:fleet_management_system/screens/home_screen.dart';
+import '../helper/setting.dart' as constant;
+// import '../helper/notification.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -57,16 +59,26 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () async {
-                String username = usernameController.text;
-                String password = passwordController.text;
-                Map<String, dynamic> userData = await login(username, password);
+                // String username = usernameController.text;
+                // String password = passwordController.text;
+                // Map<String, dynamic> userData = await login(username, password);
+                Map<String, dynamic> userData =
+                    await login('kajal', 'aggarwal@123');
+                // await login('chris', '123@chrissignup');
+
                 if (userData.isNotEmpty) {
+                  constant.userCollectionRoute =
+                      userData['collection_route']['id'];
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => HomeScreen(userData: userData),
                     ),
                   );
+
+                  // var notification =
+                  //     await getNotification(constant.userCollectionRoute);
+                  // print(notification);
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -121,37 +133,5 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// Logic to Login
-Future<Map<String, dynamic>> login(String username, String password) async {
-  final url = Uri.parse('${constant.apiUrl}login/');
-
-  final response = await http.post(
-    url,
-    body: {
-      'username': username,
-      'password': password,
-    },
-  );
-
-  if (response.statusCode == 200) {
-    // Login successful
-    final Map<String, dynamic> responseData = json.decode(response.body);
-    // final String firstname = responseData['firstname'];
-    // final String lastname = responseData['lastname'];
-
-    // final String fullname = '$firstname $lastname';
-    // final String avatar = BACKEND_URL + responseData['avatar'];
-
-    // Cache sesion/token data
-    return responseData;
-  } else {
-    // Login failed
-    print('User login failed');
-    print('User login failed with status code: ${response.statusCode}');
-    print('Error message: ${response.body}');
-    return {};
   }
 }

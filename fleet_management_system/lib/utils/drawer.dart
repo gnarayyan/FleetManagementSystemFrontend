@@ -1,5 +1,7 @@
+import 'package:fleet_management_system/screens/waste_form.dart';
 import 'package:flutter/material.dart';
-import 'setting.dart' as constant;
+// import '../helper/location.dart';
+import '../helper/setting.dart' as constant;
 
 class MyDrawer extends StatefulWidget {
   final Map<String, dynamic> userData;
@@ -44,18 +46,24 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(
               Icons.home,
             ),
-            title: const Text('Page 1'),
+            title: const Text('Home'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(
-              Icons.train,
+              Icons.recycling,
             ),
-            title: const Text('Page 2'),
+            title: const Text('On Demand Waste'),
             onTap: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              // getWeatherData();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const WasteForm(),
+                ),
+              );
             },
           ),
         ],
