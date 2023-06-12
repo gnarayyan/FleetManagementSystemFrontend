@@ -1,6 +1,4 @@
-import 'package:fleet_management_system/screens/waste_form.dart';
 import 'package:flutter/material.dart';
-// import '../helper/location.dart';
 import '../helper/setting.dart' as constant;
 
 class MyDrawer extends StatefulWidget {
@@ -59,11 +57,11 @@ class _MyDrawerState extends State<MyDrawer> {
             onTap: () {
               // Navigator.pop(context);
               // getWeatherData();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const WasteForm(),
-                ),
-              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const WasteForm(),
+              //   ),
+              // );
             },
           ),
         ],

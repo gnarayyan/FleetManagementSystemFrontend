@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         minHeight: 16,
                       ),
                       child: const Text(
-                        '9',
+                        '🔴',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 10,

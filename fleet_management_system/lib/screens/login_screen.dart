@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../helper/login.dart';
 import 'package:fleet_management_system/screens/home_screen.dart';
 import '../helper/setting.dart' as constant;
-// import '../helper/notification.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -59,11 +58,11 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () async {
-                // String username = usernameController.text;
-                // String password = passwordController.text;
-                // Map<String, dynamic> userData = await login(username, password);
-                Map<String, dynamic> userData =
-                    await login('kajal', 'aggarwal@123');
+                String username = usernameController.text;
+                String password = passwordController.text;
+                Map<String, dynamic> userData = await login(username, password);
+                // Map<String, dynamic> userData =
+                // await login('kajal', 'aggarwal@123');
                 // await login('chris', '123@chrissignup');
 
                 if (userData.isNotEmpty) {
