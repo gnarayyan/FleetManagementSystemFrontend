@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class YourWidget extends StatefulWidget {
-  final int collectionRoute;
-
-  const YourWidget({required this.collectionRoute, Key? key}) : super(key: key);
+  const YourWidget({Key? key}) : super(key: key);
 
   @override
   State<YourWidget> createState() => _YourWidgetState();
@@ -21,8 +19,8 @@ class _YourWidgetState extends State<YourWidget> {
   }
 
   Future<void> getNotificationData() async {
-    Uri url = Uri.parse(
-        'http://127.0.0.1:8000/api/schedule/?collection_route=${widget.collectionRoute}');
+    Uri url =
+        Uri.parse('http://127.0.0.1:8000/api/schedule/?collection_route=${1}');
 
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
@@ -49,7 +47,7 @@ class _YourWidgetState extends State<YourWidget> {
               contentPadding: const EdgeInsets.symmetric(vertical: 8),
               leading: CircleAvatar(
                 child: Icon(
-                  notification[index]["related_actor"] == 'D'
+                  notification[index]['related_actor'] == 'D'
                       ? Icons.drive_eta
                       : Icons.dns,
                 ),
@@ -68,7 +66,7 @@ class _YourWidgetState extends State<YourWidget> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    notification[index]["schedule_at"].replaceAll('Â', ''),
+                    notification[index]['schedule_at'].replaceAll('Â', ''),
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ],

@@ -1,24 +1,29 @@
 import 'dart:async';
 
+import 'package:fleet_management_system/helper/cache.dart';
+import 'package:fleet_management_system/screens/home/service/get_profile.dart';
+import 'package:fleet_management_system/screens/home/service/location.dart';
 import 'package:fleet_management_system/utils/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../utils/my_drawer.dart';
+
+import '../../utils/my_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Map<String, dynamic> userData;
-
-  const HomeScreen({super.key, required this.userData});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late double latitude;
+  late double longitude;
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
+  CameraPosition _kGooglePlex = const CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
@@ -41,10 +46,32 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    locationTask();
+  }
+
+  void locationTask() async {
+    var (latitude, longitude) = await getCurrentLocation();
+
+    setState(() {
+      this.latitude = latitude;
+      this.longitude = longitude;
+
+      _kGooglePlex = CameraPosition(
+        target: LatLng(this.latitude, this.longitude),
+        zoom: 14.4746,
+      );
+
+      print('Lat lang: $latitude / $longitude \n $_kGooglePlex ');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome, ${widget.userData["firstname"]}'),
+        title: const Text('Welcome, YourName'),
         actions: <Widget>[
           Builder(
             builder: (BuildContext context) {
@@ -55,8 +82,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(5),
                     icon: const Icon(Icons.notifications),
                     tooltip: 'Notifications',
-                    onPressed: () {
-                      Scaffold.of(context).openEndDrawer();
+                    onPressed: () async {
+                      await getCurrentLocation();
+                      // Scaffold.of(context).openEndDrawer();
+
+                      /*print('Token: ');
+                      print(await Cache().getAccessToken());
+                      print('Url to profile');
+
+                      print(await getInvalidData()); */
+
+                      // var myLocation = await determinePosition();
+                      // print('My Location: $myLocation ................');
                     },
                   ),
                   Positioned(
@@ -87,37 +124,22 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-
-        // actions: <Widget>[
-        //   Builder(
-        //     builder: (BuildContext context) {
-        //       return Padding(
-        //         padding: const EdgeInsets.only(right: 8.0),
-        //         child: IconButton(
-        //           icon: const Icon(Icons.notifications),
-        //           tooltip: 'Notifications',
-        //           onPressed: () {
-        //             Scaffold.of(context).openEndDrawer();
-        //           },
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ],
       ),
-      drawer: MyDrawer(
-        userData: widget.userData,
-      ),
-      endDrawer: YourWidget(
-          collectionRoute: widget.userData['collection_route']['id']),
-      body: GoogleMap(
-        initialCameraPosition: _kGooglePlex,
-        markers: Set.of(_markers),
-        mapType: MapType.normal, // MapType.satellite,
-        myLocationEnabled: true,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      drawer: const MyDrawer(),
+      endDrawer: const YourWidget(),
+      body: Center(
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(latitude, longitude),
+            zoom: 14.4746,
+          ), //_kGooglePlex,
+          markers: Set.of(_markers),
+          mapType: MapType.normal, // MapType.satellite,
+          myLocationEnabled: true,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          },
+        ),
       ),
     );
   }

@@ -1,24 +1,28 @@
 // ignore_for_file: avoid_print
 
+import 'package:fleet_management_system/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
-import '../helper/login.dart';
-import 'package:fleet_management_system/screens/home_screen.dart';
-import '../helper/setting.dart' as constant;
+import '../../helper/login.dart';
+import 'package:fleet_management_system/screens/home/home_screen.dart';
+import '../../helper/setting.dart' as constant;
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  SignupScreen({super.key});
   static const Color _logoColor = Color(0xFF192146);
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final username = TextEditingController();
+  final firstname = TextEditingController();
+  final lastname = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             const Text(
               'fleet',
               style: TextStyle(
@@ -29,49 +33,42 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             const SizedBox(height: 32.0),
-            TextField(
-              controller: usernameController,
-              decoration: InputDecoration(
-                labelText: 'Username',
-                filled: true,
-                fillColor:
-                    Colors.grey[200], // Customize input field background color
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
+            FormField(
+              controller: username,
+              labelText: 'Username',
             ),
             const SizedBox(height: 16.0),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                filled: true,
-                fillColor:
-                    Colors.grey[200], // Customize input field background color
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              obscureText: true,
+            FormField(
+              controller: firstname,
+              labelText: 'Firstname',
+            ),
+            const SizedBox(height: 16.0),
+            FormField(
+              controller: lastname,
+              labelText: 'Lastname',
+            ),
+            const SizedBox(height: 16.0),
+            FormField(
+              controller: email,
+              labelText: 'Email',
+            ),
+            const SizedBox(height: 16.0),
+            FormField(
+              controller: password,
+              labelText: 'Password',
             ),
             const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () async {
-                String username = usernameController.text;
-                String password = passwordController.text;
-                Map<String, dynamic> userData = await login(username, password);
-                // Map<String, dynamic> userData =
-                // await login('kajal', 'aggarwal@123');
-                // await login('chris', '123@chrissignup');
+                String username = this.username.text;
+                String password = this.password.text;
+                int userData = await login(username, password);
 
-                if (userData.isNotEmpty) {
-                  constant.userCollectionRoute =
-                      userData['collection_route']['id'];
+                if (userData == 200) {
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => HomeScreen(userData: userData),
+                      builder: (context) => const HomeScreen(),
                     ),
                   );
 
@@ -90,7 +87,7 @@ class LoginScreen extends StatelessWidget {
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  'Login',
+                  'Signup',
                   style: TextStyle(fontSize: 16.0),
                 ),
               ),
@@ -101,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                 // Navigate to the forgot password page
               },
               child: const Text(
-                'Forgot Password?',
+                'Already have an account?',
                 style: TextStyle(
                   decoration: TextDecoration.underline,
                   color: _logoColor, // Customize link color
@@ -111,7 +108,12 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 40.0),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the signup page
+                // Navigate to the Login page
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor:
@@ -123,12 +125,39 @@ class LoginScreen extends StatelessWidget {
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  'SIGNUP',
+                  'LOGIN',
                   style: TextStyle(fontSize: 16.0, color: _logoColor),
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class FormField extends StatelessWidget {
+  final String labelText;
+
+  const FormField({
+    super.key,
+    required this.controller,
+    required this.labelText,
+  });
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        filled: true,
+        fillColor: Colors.grey[200], // Customize input field background color
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
         ),
       ),
     );

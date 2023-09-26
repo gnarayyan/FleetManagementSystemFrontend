@@ -1,4 +1,5 @@
 import '../helper/location.dart';
+import '../helper/setting.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class _WasteFormState extends State<WasteForm> {
   }
 
   Future<void> submitForm() async {
-    const apiUrl = 'http://127.0.0.1:8000/api/waste/demand/wastes/';
+    const apiUrl = '${baseUrl}waste/demand/wastes/';
     const Map<String, int> wasteNatureMap = {
       'Organic': 1,
       'Plastic': 2,
@@ -35,7 +36,7 @@ class _WasteFormState extends State<WasteForm> {
       'Debris': 4,
     };
 
-    final location = await getWeatherData();
+    final location = await getCurrentLocation();
     if (location == null) {
       print('Failed to retrieve location.');
       return;
@@ -54,13 +55,21 @@ class _WasteFormState extends State<WasteForm> {
     request.fields['waste_for'] = 0.toString();
 
     // Add image file if selected
-    if (_image != null) {
-      request.files.add(http.MultipartFile.fromBytes(
-        'image',
+    if (_image != null && _image!.bytes != null) {
+      Image.memory(
         _image!.bytes!,
-        filename: _image!.name,
-      ));
+        height: 150,
+        width: 150,
+      );
     }
+
+    // if (_image != null) {
+    //   request.files.add(http.MultipartFile.fromBytes(
+    //     'image',
+    //     _image!.bytes!,
+    //     filename: _image!.name,
+    //   ));
+    // }
     print('FINAL DATA: ${request.fields}');
     // Send the request
     try {
@@ -84,15 +93,15 @@ class _WasteFormState extends State<WasteForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Waste Form'),
+        title: Text('Waste Forms'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(36.0),
         child: Column(
           children: [
             TextField(
               controller: volumeController,
-              decoration: InputDecoration(labelText: 'Waste Volume'),
+              decoration: InputDecoration(labelText: '-Waste Volume'),
             ),
             DropdownButtonFormField<int>(
               value: nature,

@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import '../helper/location.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../helper/setting.dart';
+
 class WasteForm extends StatefulWidget {
   const WasteForm({super.key});
 
@@ -61,10 +63,10 @@ class _WasteFormState extends State<WasteForm> {
   }
 
   Future<void> submitForm() async {
-    const String apiUrl = 'http://127.0.0.1:8000/api/waste/demand/wastes/';
+    const apiUrl = '${baseUrl}waste/demand/wastes/';
 
     try {
-      final location = await getWeatherData();
+      final location = await getCurrentLocation();
       final response = await http.post(
         Uri.parse(apiUrl),
         body: {
@@ -96,12 +98,12 @@ class _WasteFormState extends State<WasteForm> {
         title: const Text('Waste Form'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
             TextField(
               controller: volumeController,
-              decoration: const InputDecoration(labelText: 'Waste Volume'),
+              decoration: const InputDecoration(labelText: 'Waste Volumes'),
             ),
             DropdownButtonFormField<int>(
               value: nature,
