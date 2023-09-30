@@ -4,8 +4,6 @@ import 'package:fleet_management_system/helper/login.dart';
 import 'package:fleet_management_system/screens/auth/login_screen.dart';
 import 'package:fleet_management_system/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fleet_management_system/screens/home/service/locationpage.dart'
-    as lp;
 
 void main() {
   runApp(const App());
@@ -29,17 +27,9 @@ class _AppState extends State<App> {
   }
 
   Future<void> checkLoginStatus() async {
-    bool logined = await Cache().isLogin();
-    if (logined) {
-      bool tokenLoginResult = await tokenLogin();
-      if (tokenLoginResult) {
-        setState(() {
-          isLogined = true;
-        });
-      }
-    } else {
+    if (await Cache().isLogin() && await tokenLogin()) {
       setState(() {
-        isLogined = false;
+        isLogined = true;
       });
     }
   }

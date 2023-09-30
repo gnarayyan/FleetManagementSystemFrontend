@@ -1,7 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'package:fleet_management_system/screens/auth/signup.dart';
+import 'package:fleet_management_system/screens/waste/components/dropdown.dart';
 import 'package:flutter/material.dart';
+
+import '../home/service/location.dart';
 
 class OnDemandWaste extends StatefulWidget {
   const OnDemandWaste({super.key});
@@ -12,8 +15,19 @@ class OnDemandWaste extends StatefulWidget {
 }
 
 class _OnDemandWasteState extends State<OnDemandWaste> {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final wasteVolume = TextEditingController();
+  double latitude = 0.0;
+  double longitude = 0.0;
+
+  // String wasteNature = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // setState(() {
+    //   wasteNature = (wasteNatureChoices.keys.toList()[0]);
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +51,7 @@ class _OnDemandWasteState extends State<OnDemandWaste> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  controller: usernameController,
+                  controller: wasteVolume,
                   decoration: InputDecoration(
                     labelText: 'Estimated Waste Volume cubic meter',
                     filled: true,
@@ -48,6 +62,34 @@ class _OnDemandWasteState extends State<OnDemandWaste> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+                const MyDropDown(),
+                const SizedBox(height: 16.0),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      var (latitude, longitude) = await getCurrentLocation();
+
+                      setState(() {
+                        this.latitude = latitude;
+                        this.longitude = longitude;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffFAFAFA),
+                      foregroundColor: OnDemandWaste._logoColor,
+                      padding:
+                          const EdgeInsets.all(15.0), // This is what you need!
+                    ),
+                    child: const Text(
+                      'Grant Location Access',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                  ),
+                ),
+
+                // Submit
                 const SizedBox(height: 24.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,7 +129,6 @@ class _OnDemandWasteState extends State<OnDemandWaste> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16.0),
               ],
             ),
           ),

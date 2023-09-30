@@ -3,11 +3,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class Cache {
   final _storage = const FlutterSecureStorage();
 
-  Future<void> save(int userId, String fullName, String email,
+  Future<void> save(int userId, String fullName, String email, String role,
       String accessToken, String refreshToken) async {
     await _storage.write(key: 'userId', value: userId.toString());
     await _storage.write(key: 'fullName', value: fullName);
     await _storage.write(key: 'email', value: email);
+    await _storage.write(key: 'role', value: role);
     await _storage.write(key: 'accessToken', value: accessToken);
     await _storage.write(key: 'refreshToken', value: refreshToken);
     await _storage.write(
@@ -30,6 +31,11 @@ class Cache {
     var token = await _storage.read(key: 'accessToken');
 
     return token;
+  }
+
+  Future<String?> getRole() async {
+    String? role = await _storage.read(key: 'role');
+    return role;
   }
 
   Future<void> setAccessToken(String accessToken) async {

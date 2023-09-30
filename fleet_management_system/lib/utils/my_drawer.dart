@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fleet_management_system/helper/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,8 +20,7 @@ class _YourWidgetState extends State<YourWidget> {
   }
 
   Future<void> getNotificationData() async {
-    Uri url =
-        Uri.parse('http://127.0.0.1:8000/api/schedule/?collection_route=${1}');
+    Uri url = Uri.parse(scheduleUrl);
 
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {

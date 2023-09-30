@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:fleet_management_system/helper/cache.dart';
-import 'package:fleet_management_system/screens/home/service/get_profile.dart';
 import 'package:fleet_management_system/screens/home/service/location.dart';
 import 'package:fleet_management_system/utils/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../utils/my_drawer.dart';
+import 'build_markers.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late double latitude;
   late double longitude;
+  String fullName = '';
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -28,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     zoom: 14.4746,
   );
 
-  final List<Marker> _markers = [
+  List<Marker> _markers = [
     const Marker(
       markerId: MarkerId('1'),
       position: LatLng(37.42796133580664, -122.085749655962),
@@ -45,16 +46,53 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
+  Set<Polyline> _polylines = {};
+
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    locationTask();
+    _locationTask();
+    getMarkerWidgets();
+    _addPolyline();
   }
 
-  void locationTask() async {
-    var (latitude, longitude) = await getCurrentLocation();
+  void getMarkerWidgets() async {
+    var markers = await buildMarkers();
+
+    print('Fetched markers....: $markers');
 
     setState(() {
+      _markers = markers;
+    });
+  }
+
+  void _addPolyline() {
+    List<LatLng> polylineCoordinates = [];
+
+    for (Marker marker in _markers) {
+      polylineCoordinates.add(marker.position);
+    }
+
+    setState(() {
+      _polylines.add(
+        Polyline(
+          polylineId: const PolylineId('My Custom route'),
+          points: polylineCoordinates,
+          color: const Color.fromARGB(255, 243, 33, 166),
+          width: 4,
+        ),
+      );
+    });
+  }
+
+  void _locationTask() async {
+    var (latitude, longitude) = await getCurrentLocation();
+    String? fullName = await Cache().getFullName();
+
+    setState(() {
+      this.fullName = fullName!;
       this.latitude = latitude;
       this.longitude = longitude;
 
@@ -62,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
         target: LatLng(this.latitude, this.longitude),
         zoom: 14.4746,
       );
+      isLoading = false;
 
       print('Lat lang: $latitude / $longitude \n $_kGooglePlex ');
     });
@@ -71,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome, YourName'),
+        title: Text('Welcome, ${fullName.split(' ')[0]}'),
         actions: <Widget>[
           Builder(
             builder: (BuildContext context) {
@@ -83,8 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.notifications),
                     tooltip: 'Notifications',
                     onPressed: () async {
-                      await getCurrentLocation();
-                      // Scaffold.of(context).openEndDrawer();
+                      // await getCollectionPoints();
+                      // await getCurrentLocation();
+                      Scaffold.of(context).openEndDrawer();
 
                       /*print('Token: ');
                       print(await Cache().getAccessToken());
@@ -128,18 +168,21 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: const MyDrawer(),
       endDrawer: const YourWidget(),
       body: Center(
-        child: GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(latitude, longitude),
-            zoom: 14.4746,
-          ), //_kGooglePlex,
-          markers: Set.of(_markers),
-          mapType: MapType.normal, // MapType.satellite,
-          myLocationEnabled: true,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-        ),
+        child: (isLoading)
+            ? const CircularProgressIndicator()
+            : GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(latitude, longitude),
+                  zoom: 14.4746,
+                ), //_kGooglePlex,
+                markers: Set.of(_markers),
+                mapType: MapType.normal, // MapType.satellite,
+                myLocationEnabled: true,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+                polylines: _polylines,
+              ),
       ),
     );
   }

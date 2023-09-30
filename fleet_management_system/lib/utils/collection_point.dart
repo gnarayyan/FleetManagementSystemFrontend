@@ -27,27 +27,7 @@ Future<Map<String, int>> getCollectionRoutes() async {
 }
 
 Future<bool> createCollectionPoint(
-    double latitude, double longitude, String name, int collRoute) async {
-  // var jsonDataToSend = jsonEncode({
-  //   'latitude': latitude,
-  //   'longitude': longitude,
-  //   'name': name,
-  //   'collection_route': collRoute
-  // });
-  // var jsonDataToSend = {
-  //   'latitude': latitude,
-  //   'longitude': longitude,
-  //   'name': name,
-  //   'collection_route': collRoute
-  // };
-
-  // print('xxxxxcxxxxxxxxxxxxxx');
-  // jsonDataToSend.forEach((key, value) {
-  //   print('$key: ${value.runtimeType}');
-  // });
-
-  //print('.....: $selectedOption  ....: ${selectedOption.runtimeType} ');
-
+    String latitude, String longitude, String name, int collRoute) async {
   var jsonDataToSend = {
     'latitude': latitude,
     'longitude': longitude,
