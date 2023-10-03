@@ -46,6 +46,9 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   geocoding: ^2.1.0
   dio: ^5.3.3
+  firebase_messaging: ^14.6.8
+  firebase_core: ^2.16.0
+  flutter_polyline_points: ^2.0.0
 
 dev_dependencies:
   flutter_test:

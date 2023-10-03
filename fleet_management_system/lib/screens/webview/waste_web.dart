@@ -35,7 +35,7 @@ class _WasteWebState extends State<WasteWeb> {
         },
       ))
       ..loadRequest(
-        Uri.parse(wasteUrl), //'https://flutter.dev'
+        Uri.parse(adminUrl), //'https://flutter.dev'
       );
   }
 

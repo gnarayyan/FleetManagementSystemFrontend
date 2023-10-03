@@ -1,13 +1,17 @@
 import 'package:fleet_management_system/helper/cache.dart';
 import 'package:fleet_management_system/helper/login.dart';
+import 'package:fleet_management_system/screens/admin/home.dart';
 import 'package:fleet_management_system/utils/collection_point.dart';
 import 'package:flutter/material.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/home/service/get_profile.dart';
 import '../screens/home/service/location.dart';
+import '../screens/notification/network_stuff.dart';
 import '../screens/waste/new/upload.dart';
 // import '../on_demand/waste_form.dart';
 import 'package:file_picker/file_picker.dart';
+// push message
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -82,7 +86,7 @@ class _MyDrawerState extends State<MyDrawer> {
         children: [
           UserAccountsDrawerHeader(
             // <-- SEE HERE
-            decoration: const BoxDecoration(color: Color(0xff764abc)),
+            // decoration: const BoxDecoration(color: Color(0xff764abc)),
             accountName: Text(
               fullName,
               style: const TextStyle(
@@ -115,15 +119,26 @@ class _MyDrawerState extends State<MyDrawer> {
           //   leading: const Icon(
           //     Icons.flashlight_on_outlined,
           //   ),
-          //   title: const Text('Web View'),
+          //   title: const Text('Get Firebase Token'),
           //   onTap: () async {
-          //     // Navigator.pop(context);
-          //     // Request permission to show notifications. Only do this in a meaningful place
-          //     // For example, users have subscribed to a news feed, preferably not when they first install/launch the app.
-          //     final isGranted = await Push.instance.requestPermission();
-          //     print(isGranted);
+          //     final fcmToken = await FirebaseMessaging.instance.getToken();
+          //     print('TOKEN: $fcmToken');
           //   },
           // ),
+          if (role == 'A')
+            ListTile(
+              leading: const Icon(
+                Icons.calendar_month,
+              ),
+              title: const Text('Schedule Task'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AdminSchedule(),
+                  ),
+                );
+              },
+            ),
           if (role == 'H')
             ListTile(
               leading: const Icon(
@@ -153,7 +168,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     ),
                   );
                 }),
-          if (role == 'D')
+          if (role == 'D' || role == 'A')
             ListTile(
               leading: const Icon(
                 Icons.add_location_alt_sharp,
@@ -311,6 +326,17 @@ class _MyDrawerState extends State<MyDrawer> {
                 // );
               },
             ),
+
+          ListTile(
+            leading: const Icon(
+              Icons.refresh,
+            ),
+            title: const Text('Notification Service'),
+            onTap: () async {
+              await isNotificationTokenExpired();
+            },
+          ),
+
           ListTile(
             leading: const Icon(
               Icons.logout,

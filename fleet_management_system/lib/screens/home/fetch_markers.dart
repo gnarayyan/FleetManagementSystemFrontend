@@ -12,7 +12,7 @@ Future<List<dynamic>> getCollectionPoints() async {
   if (response.statusCode == 200) {
     var jsonResponse = jsonDecode(response.body);
     print('Fetched Collection Points');
-    print(jsonResponse);
+    // print(jsonResponse);
 
     return jsonResponse;
   }

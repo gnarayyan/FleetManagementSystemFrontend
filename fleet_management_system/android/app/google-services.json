@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "619871612553",
+    "project_id": "fleet-e95aa",
+    "storage_bucket": "fleet-e95aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619871612553:android:a2ee96c85d2ab6c65da058",
+        "android_client_info": {
+          "package_name": "com.example.fleet_management_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619871612553-252spmbghmo2js93f9nj3sltbqjutdjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Zdc6fm7wEMZjFEX9b8PhWVBNfa3ZO1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619871612553-252spmbghmo2js93f9nj3sltbqjutdjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619871612553:android:ef22d2fdc70d37fc5da058",
+        "android_client_info": {
+          "package_name": "com.example.notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619871612553-252spmbghmo2js93f9nj3sltbqjutdjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Zdc6fm7wEMZjFEX9b8PhWVBNfa3ZO1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619871612553-252spmbghmo2js93f9nj3sltbqjutdjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

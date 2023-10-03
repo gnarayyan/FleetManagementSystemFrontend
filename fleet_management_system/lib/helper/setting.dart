@@ -1,10 +1,11 @@
-const port = 105;
+const port = 84;
 
-const mobileUrl = 'http://192.168.0.$port:8000/';
+const mobileUrl = 'http://192.168.1.$port:8000/';
 const webUrl = 'http://localhost:8000/';
 
 const baseUrl = mobileUrl; //mobileUrl; //// Update it before 'flutter run'
 
+const adminUrl = '${baseUrl}admin/';
 const apiUrl = '${baseUrl}api/';
 const testUrl = '${apiUrl}account/register/test/';
 const accountUrl = '${apiUrl}account/';
@@ -12,7 +13,7 @@ const refreshToken = '${accountUrl}token/refresh/';
 
 const wasteUrl = '${apiUrl}waste/demand/wastes/';
 //-----
-const scheduleUrl = 'http://192.168.0.$port:8000/api/schedule/';
+const scheduleUrl = 'http://192.168.1.$port:8000/api/schedule/';
 
 int userCollectionRoute = 0;
 

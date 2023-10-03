@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../helper/setting.dart';
 import '../../home/service/location.dart';
-import '../components/dropdown.dart';
 import '../popup.dart';
 import './services.dart';
 import 'dart:io';

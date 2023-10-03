@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Title 1",
+    "description": "Desc 1",
+    "image": "http://localhost:8000/media/notification/8aa148a3-6411-4bd9-b7b9-6b6918333d1a.jpg",
+    "status": 0
+  },
+  {
+    "title": "Test Notification",
+    "description": "Description Body of test ....",
+    "image": "http://localhost:8000/media/notification/4cc507a2-a854-495c-81f4-24b9d3ae66c0.jpg",
+    "status": 0
+  },
+  {
+    "title": "Test Notification",
+    "description": "Description Body of test ....",
+    "image": "http://localhost:8000/media/notification/07308b84-4c6a-4790-8704-c366a0b3c760.jpg",
+    "status": 0
+  }
+]

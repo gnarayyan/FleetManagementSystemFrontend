@@ -16,7 +16,9 @@ class Cache {
   }
 
   Future<void> clear() async {
+    int id = await getDeviceNotificationId();
     await _storage.deleteAll(); // Clear cache
+    setDeviceNotificationId(id);
     await _storage.write(key: 'isLogined', value: '0');
   }
 
@@ -25,6 +27,19 @@ class Cache {
     bool loginStatus = (token == '1') ? true : false;
 
     return loginStatus;
+  }
+
+  Future<void> setDeviceNotificationId(int id) async {
+    await _storage.write(key: 'deviceNotificationId', value: id.toString());
+  }
+
+  Future<int> getDeviceNotificationId() async {
+    String? id = await _storage.read(key: 'deviceNotificationId');
+    if (id == null) {
+      print('Device Notification id not cached');
+      return -1;
+    }
+    return int.parse(id);
   }
 
   Future<String?> getAccessToken() async {

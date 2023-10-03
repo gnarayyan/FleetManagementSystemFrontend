@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../utils/my_drawer.dart';
+import '../admin/home.dart';
 import 'build_markers.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,19 +50,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Set<Polyline> _polylines = {};
 
   bool isLoading = true;
+  String userRole = '';
 
   @override
   void initState() {
     super.initState();
-    _locationTask();
-    getMarkerWidgets();
-    _addPolyline();
+    _getUserRole();
+    if (userRole != 'A') {
+      _locationTask();
+      getMarkerWidgets();
+      _addPolyline();
+    }
+  }
+
+  void _getUserRole() async {
+    String userRole = await Cache().getRole() ?? 'A';
+    setState(() {
+      this.userRole = userRole;
+      print('User Role: ${this.userRole}');
+      isLoading = false;
+    });
   }
 
   void getMarkerWidgets() async {
     var markers = await buildMarkers();
+    print('Markers Fetched....');
 
-    print('Fetched markers....: $markers');
+    // print('Fetched markers....: $markers');
 
     setState(() {
       _markers = markers;
@@ -102,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       isLoading = false;
 
-      print('Lat lang: $latitude / $longitude \n $_kGooglePlex ');
+      // print('Lat lang: $latitude / $longitude \n $_kGooglePlex ');
     });
   }
 
@@ -122,18 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.notifications),
                     tooltip: 'Notifications',
                     onPressed: () async {
-                      // await getCollectionPoints();
-                      // await getCurrentLocation();
                       Scaffold.of(context).openEndDrawer();
-
-                      /*print('Token: ');
-                      print(await Cache().getAccessToken());
-                      print('Url to profile');
-
-                      print(await getInvalidData()); */
-
-                      // var myLocation = await determinePosition();
-                      // print('My Location: $myLocation ................');
                     },
                   ),
                   Positioned(
@@ -170,6 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: (isLoading)
             ? const CircularProgressIndicator()
+            // : (userRole == 'A')
+            //     ? const AdminHome()
             : GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: LatLng(latitude, longitude),

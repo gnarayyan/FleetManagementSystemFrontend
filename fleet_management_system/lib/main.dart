@@ -1,12 +1,29 @@
 // import 'package:fleet_management_system/day2/upload.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fleet_management_system/helper/cache.dart';
 import 'package:fleet_management_system/helper/login.dart';
 import 'package:fleet_management_system/screens/auth/login_screen.dart';
 import 'package:fleet_management_system/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'screens/notification/setup_notification.dart';
 
-void main() {
+final GlobalKey<NavigatorState> navigatorKey =
+    GlobalKey(debugLabel: 'Main Navigator');
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseApi().initNotifications();
   runApp(const App());
+
+  FirebaseMessaging.onMessageOpenedApp.listen((message) async {
+    final screenName = message.data['screen'];
+    navigatorKey.currentState?.pushNamed(screenName);
+  });
 }
 
 class App extends StatefulWidget {

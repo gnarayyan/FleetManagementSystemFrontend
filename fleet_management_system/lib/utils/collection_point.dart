@@ -13,7 +13,7 @@ Future<Map<String, int>> getCollectionRoutes() async {
     final responseData = json.decode(response.body);
     Map<String, int> idToNameMap = {};
 
-    print('Response ..: $responseData');
+    // print('Response ..: $responseData');
 
     for (var item in responseData) {
       int id = item['id'];
@@ -24,6 +24,25 @@ Future<Map<String, int>> getCollectionRoutes() async {
   }
   print('failed to fetch collection routes');
   return {};
+}
+
+Future<List<dynamic>> getUsers({String role = 'D'}) async {
+  String url = '${accountUrl}user-profiles/?role=$role';
+  final response = await http.get(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    final responseData = json.decode(response.body);
+    return responseData;
+  }
+  print('failed to fetch collection routes');
+  return [
+    {
+      'user': 0,
+      'avatar':
+          'https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg',
+      'full_name': 'Dummy Data'
+    }
+  ];
 }
 
 Future<bool> createCollectionPoint(
