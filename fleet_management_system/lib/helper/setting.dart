@@ -1,6 +1,5 @@
-const port = 84;
-
-const mobileUrl = 'http://192.168.1.$port:8000/';
+const port = 157;
+const mobileUrl = 'http://192.168.43.$port:8000/';
 const webUrl = 'http://localhost:8000/';
 
 const baseUrl = mobileUrl; //mobileUrl; //// Update it before 'flutter run'

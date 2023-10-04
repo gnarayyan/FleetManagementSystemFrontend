@@ -4,6 +4,7 @@ import 'package:fleet_management_system/helper/cache.dart';
 import 'package:fleet_management_system/screens/home/service/location.dart';
 import 'package:fleet_management_system/utils/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../utils/my_drawer.dart';
@@ -55,21 +56,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getUserRole();
-    if (userRole != 'A') {
-      _locationTask();
-      getMarkerWidgets();
-      _addPolyline();
-    }
+    // _getUserRole();
+    // if (userRole != 'A') {
+    _locationTask();
+    getMarkerWidgets();
+    _addPolyline();
+    // }
   }
 
-  void _getUserRole() async {
-    String userRole = await Cache().getRole() ?? 'A';
-    setState(() {
-      this.userRole = userRole;
-      print('User Role: ${this.userRole}');
-      isLoading = false;
-    });
+  // void _getUserRole() async {
+  //   String userRole = await Cache().getRole() ?? 'A';
+  //   setState(() {
+  //     this.userRole = userRole;
+  //     print('User Role: ${this.userRole}');
+  //     isLoading = false;
+  //   });
+  // }
+
+  void getPolyPoints() {
+    PolylinePoints pp = PolylinePoints();
+    //apikey: AIzaSyC2Zdc6fm7wEMZjFEX9b8PhWVBNfa3ZO1c
   }
 
   void getMarkerWidgets() async {
